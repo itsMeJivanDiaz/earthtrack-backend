@@ -2,16 +2,16 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ type: 'varchar', length: '225' })
+  @Column({ type: 'varchar', length: '60' })
   name: string;
 
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'varchar', length: '255' })
+  @Column({ type: 'varchar', length: '60' })
   category: string;
 
   @Column({ type: 'decimal' })

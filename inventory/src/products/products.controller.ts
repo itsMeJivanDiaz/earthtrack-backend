@@ -1,28 +1,39 @@
 import { Controller } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { MessagePattern } from '@nestjs/microservices';
+import { ProductModel, ProductsSearchModel } from './products.inteface';
 
 @Controller()
 export class ProductsController {
   constructor(private readonly productService: ProductService) {}
 
   @MessagePattern({ cmd: 'add_product' })
-  addProduct(): any {
-    return this.productService.insertProduct();
+  insertProduct(data: ProductModel) {
+    return this.productService.insertProduct(data);
   }
 
-  @MessagePattern({ cmd: 'get_product' })
-  getProduct(): any {
-    return this.productService.readProduct();
+  @MessagePattern({ cmd: 'get_products' })
+  getProducts() {
+    return this.productService.getProducts();
   }
 
-  @MessagePattern({ cmd: 'edit_product' })
-  editProduct(): any {
-    return this.productService.updateProduct();
+  @MessagePattern({ cmd: 'get_product_by_id' })
+  getProductById(id: string) {
+    return this.productService.getProductById(id);
   }
 
-  @MessagePattern({ cmd: 'remove_product' })
-  removeProduct(): any {
-    return this.productService.deleteProduct();
+  @MessagePattern({ cmd: 'search_products' })
+  searchProducts(data: ProductsSearchModel) {
+    return this.productService.searchProducts(data);
+  }
+
+  @MessagePattern({ cmd: 'update_product' })
+  updateProduct(data: ProductModel) {
+    return this.productService.updateProduct(data);
+  }
+
+  @MessagePattern({ cmd: 'delete_product' })
+  deleteProduct(id: string): any {
+    return this.productService.deleteProduct(id);
   }
 }
