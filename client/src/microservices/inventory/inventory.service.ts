@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ProductDTO } from './dto/inventory-product.dto';
+import { ProductModel } from './interfaces/inventory-product.interface';
 import { ProductsSearchModel } from './interfaces/inventory-product.interface';
 
 @Injectable()
 export class InventoryService {
   constructor(@Inject('INVENTORY_SERVICE') private client: ClientProxy) {}
 
-  addProduct(data: ProductDTO) {
+  addProduct(data: ProductModel) {
     return this.client.send({ cmd: 'add_product' }, data);
   }
 
@@ -28,7 +28,7 @@ export class InventoryService {
     return this.client.send({ cmd: 'search_products' }, search);
   }
 
-  updateProduct(id: string, data: ProductDTO) {
+  updateProduct(id: string, data: ProductModel) {
     data.id = id;
     return this.client.send({ cmd: 'update_product' }, data);
   }

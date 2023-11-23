@@ -1,14 +1,15 @@
 import { Controller } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { ProductModel, ProductsSearchModel } from './products.inteface';
+import { ProductsSearchModel } from './products.inteface';
+import { ProductDTO } from './products.dto';
 
 @Controller()
 export class ProductsController {
   constructor(private readonly productService: ProductService) {}
 
   @MessagePattern({ cmd: 'add_product' })
-  insertProduct(data: ProductModel) {
+  insertProduct(data: ProductDTO) {
     return this.productService.insertProduct(data);
   }
 
@@ -28,7 +29,7 @@ export class ProductsController {
   }
 
   @MessagePattern({ cmd: 'update_product' })
-  updateProduct(data: ProductModel) {
+  updateProduct(data: ProductDTO) {
     return this.productService.updateProduct(data);
   }
 
