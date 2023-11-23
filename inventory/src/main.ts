@@ -24,7 +24,7 @@ async function bootstrap() {
       transport: Transport.TCP,
       options: {
         host: configService.get<string>('INVENTORY_HOST') || 'inventory',
-        port: configService.get<number>('INVENTORY_PORT') || 3030,
+        port: configService.get<number>('INVENTORY_PORT') || 3630,
       },
     },
     { inheritAppConfig: true },

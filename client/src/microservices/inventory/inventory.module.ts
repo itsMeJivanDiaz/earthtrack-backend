@@ -20,7 +20,7 @@ import { JwtService } from '@nestjs/jwt/dist';
             host:
               configService.get<string>('INVENTORY_SERVICE_HOST') ||
               'inventory',
-            port: configService.get<number>('INVENTORY_SERVICE_PORT') || 3030,
+            port: configService.get<number>('INVENTORY_SERVICE_PORT') || 3630,
           },
         });
       },

@@ -7,6 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   app.useGlobalFilters(new FilterExceptions());
-  await app.listen(configService.get<number>('CLIENT_PORT') || 3001);
+  await app.listen(configService.get<number>('CLIENT_PORT') || 3460);
 }
 bootstrap();

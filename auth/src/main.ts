@@ -24,7 +24,7 @@ async function bootstrap() {
       transport: Transport.TCP,
       options: {
         host: configService.get<string>('AUTH_HOST') || 'auth',
-        port: configService.get<number>('AUTH_PORT') || 4000,
+        port: configService.get<number>('AUTH_PORT') || 3740,
       },
     },
     { inheritAppConfig: true },

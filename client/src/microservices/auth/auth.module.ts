@@ -16,7 +16,7 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
           transport: Transport.TCP,
           options: {
             host: configService.get<string>('AUTH_SERVICE_HOST') || 'auth',
-            port: configService.get<number>('AUTH_SERVICE_PORT') || 4000,
+            port: configService.get<number>('AUTH_SERVICE_PORT') || 3740,
           },
         });
       },

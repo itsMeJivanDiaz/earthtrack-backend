@@ -3,12 +3,12 @@ services:
   client:
     build: ./client
     ports:
-      - 3001:3001
+      - 3460:3460
   inventory:
     build: ./inventory
     ports:
-      - 3030:3030
+      - 3630:3630
   auth:
     build: ./auth
     ports:
-      - 4000:4000
+      - 3740:3740
