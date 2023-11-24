@@ -5,19 +5,19 @@ services:
     ports:
       - 3460:3460
     environment:
-      - CLIENT_PORT=${CLIENT_PORT}
-      - AUTH_HOST=${AUTH_HOST}
-      - AUTH_PORT=${AUTH_PORT}
+      - CLIENT_PORT=3460
+      - AUTH_HOST=auth
+      - AUTH_PORT=3740
+      - INVENTORY_HOST=inventory
+      - INVENTORY_PORT=3630
       - AUTH_SECRET=${AUTH_SECRET}
-      - INVENTORY_HOST=${INVENTORY_HOST}
-      - INVENTORY_PORT=${INVENTORY_PORT}
   inventory:
     build: ./inventory
     ports:
       - 3630:3630
     environment:
-      - INVENTORY_HOST=${INVENTORY_HOST}
-      - INVENTORY_PORT=${INVENTORY_PORT}
+      - INVENTORY_HOST=inventory
+      - INVENTORY_PORT=3630
       - PG_HOST=${PG_HOST}
       - PG_PORT=${PG_PORT}
       - PG_USER=${PG_USER}
@@ -28,8 +28,8 @@ services:
     ports:
       - 3740:3740
     environment:
-      - AUTH_HOST=${AUTH_HOST}
-      - AUTH_PORT=${AUTH_PORT}
+      - AUTH_HOST=auth
+      - AUTH_PORT=3740
       - AUTH_SECRET=${AUTH_SECRET}
       - PG_HOST=${PG_HOST}
       - PG_PORT=${PG_PORT}

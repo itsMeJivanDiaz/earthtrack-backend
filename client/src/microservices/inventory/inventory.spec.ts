@@ -26,6 +26,8 @@ describe('Inventory', () => {
   let controller: InventoryController;
   let service: InventoryService;
   let clientProxy: MockClientProxy;
+  let configService: ConfigService;
+  let jwtService: JwtService;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -44,6 +46,8 @@ describe('Inventory', () => {
     controller = moduleRef.get<InventoryController>(InventoryController);
     service = moduleRef.get<InventoryService>(InventoryService);
     clientProxy = moduleRef.get<MockClientProxy>('INVENTORY_SERVICE');
+    configService = moduleRef.get<ConfigService>(ConfigService);
+    jwtService = moduleRef.get<JwtService>(JwtService);
   });
 
   afterEach(() => {
@@ -60,6 +64,14 @@ describe('Inventory', () => {
 
   it('should be defined - ClientProxy', () => {
     expect(clientProxy).toBeDefined();
+  });
+
+  it('should be defined - ConfigService', () => {
+    expect(configService).toBeDefined();
+  });
+
+  it('should be defined - JwtService', () => {
+    expect(jwtService).toBeDefined();
   });
 
   describe('ProductModel', () => {
@@ -81,7 +93,7 @@ describe('Inventory', () => {
   });
 
   describe('addProduct', () => {
-    it('it should add product', () => {
+    it('it should add product and return the product with an id', () => {
       const cmd = { cmd: 'add_product' };
 
       jest.spyOn(service, 'addProduct').mockImplementation(() => <any>result);
