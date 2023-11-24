@@ -17,10 +17,8 @@ import { JwtService } from '@nestjs/jwt/dist';
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host:
-              configService.get<string>('INVENTORY_SERVICE_HOST') ||
-              'inventory',
-            port: configService.get<number>('INVENTORY_SERVICE_PORT') || 3630,
+            host: configService.get<string>('INVENTORY_HOST') || 'inventory',
+            port: configService.get<number>('INVENTORY_PORT') || 3630,
           },
         });
       },

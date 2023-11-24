@@ -10,12 +10,12 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async getUserByUsername(username: string): Promise<User | RpcException> {
+  async getUserByUsername(username: string): Promise<User> {
     try {
       const response = await this.userRepository.findOneBy({ username });
       return response;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 }

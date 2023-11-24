@@ -1,3 +1,4 @@
+import { DecimalColumnTransformer } from 'src/helper/product.transformer';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -14,6 +15,8 @@ export class Product {
   @Column({ type: 'varchar', length: '60' })
   category: string;
 
-  @Column({ type: 'decimal' })
+  @Column('decimal', {
+    transformer: new DecimalColumnTransformer(),
+  })
   price: number;
 }

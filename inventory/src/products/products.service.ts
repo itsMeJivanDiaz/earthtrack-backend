@@ -4,6 +4,7 @@ import { Product } from './products.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { ProductsSearchModel } from './products.inteface';
 import { RpcException } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class ProductService {
@@ -12,36 +13,36 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
   ) {}
 
-  async insertProduct(data: Product): Promise<Product | RpcException> {
+  async insertProduct(data: Product): Promise<Product> {
     try {
       const response = await this.productRepository.save(data);
       return response;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 
-  async getProducts(): Promise<Product[] | RpcException> {
+  async getProducts(): Promise<Product[]> {
     try {
       const response = await this.productRepository.find();
       return response;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 
-  async getProductById(id: string): Promise<Product | RpcException> {
+  async getProductById(id: string): Promise<Product> {
     try {
       const response = await this.productRepository.findOneBy({ id });
       return response;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 
   async searchProducts(
     data: ProductsSearchModel,
-  ): Promise<{ data: Product[]; total: number } | RpcException> {
+  ): Promise<{ data: Product[]; total: number }> {
     try {
       const search = data.searchTerm;
       const page = data.page;
@@ -62,25 +63,28 @@ export class ProductService {
       const response = await query.getMany();
       return { data: response, total };
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 
-  async updateProduct(data: Product): Promise<Product | RpcException> {
+  async updateProduct(data: Product): Promise<Product> {
     try {
       const response = await this.productRepository.save(data);
       return response;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 
-  async deleteProduct(id: string): Promise<DeleteResult | RpcException> {
+  async deleteProduct(id: string): Promise<DeleteResult> {
     try {
       const response = await this.productRepository.delete(id);
       return response;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: e.message,
+      });
     }
   }
 }

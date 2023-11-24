@@ -4,7 +4,6 @@ export class ProductDTO {
   id: string;
 
   @IsString()
-  @MinLength(2, { message: 'name must include atleast 2 characters' })
   @IsNotEmpty({ message: 'name must not be empty' })
   name: string;
 

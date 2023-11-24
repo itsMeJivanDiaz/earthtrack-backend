@@ -10,7 +10,6 @@ import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { Roles } from './auth.decorator';
 import { AuthPayloadModel } from './auth.interface';
-import { BadRequestException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,10 +22,11 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    if (!token) {
-      throw new UnauthorizedException();
-    }
     try {
+      if (!token) {
+        throw new UnauthorizedException();
+      }
+
       const payload: AuthPayloadModel = await this.jwtService.verifyAsync(
         token,
         {
@@ -38,14 +38,6 @@ export class AuthGuard implements CanActivate {
 
       if (!roles.includes(payload.role)) {
         throw new UnauthorizedException();
-      }
-
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-
-      const isExpired = payload.exp < currentTimestamp;
-
-      if (isExpired) {
-        throw new BadRequestException();
       }
 
       request['user'] = payload;

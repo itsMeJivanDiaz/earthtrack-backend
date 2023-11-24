@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { AuthDTO } from './authentication.dto';
@@ -13,15 +13,13 @@ export class AuthenticationService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(
-    data: AuthDTO,
-  ): Promise<any | RpcException | UnauthorizedException> {
+  async signIn(data: AuthDTO): Promise<any> {
     try {
       const { username, userpassword } = data;
       const user: any = await this.userService.getUserByUsername(username);
       const isMatch = await bcrypt.compare(userpassword, user?.userpassword);
       if (!isMatch) {
-        return new UnauthorizedException();
+        throw new RpcException({ message: 'User was not found' });
       }
       const payload: AuthPayloadModel = {
         id: user.id,
@@ -35,7 +33,7 @@ export class AuthenticationService {
       };
       return result;
     } catch (e) {
-      return new RpcException(e);
+      throw new RpcException({ message: e.message });
     }
   }
 }
