@@ -8,7 +8,7 @@ export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
   @MessagePattern({ cmd: 'auth' })
-  signIn(data: AuthDTO) {
-    return this.authenticationService.signIn(data);
+  async signIn(data: AuthDTO) {
+    return await this.authenticationService.signIn(data);
   }
 }

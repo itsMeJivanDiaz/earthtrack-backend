@@ -9,32 +9,32 @@ export class ProductsController {
   constructor(private readonly productService: ProductService) {}
 
   @MessagePattern({ cmd: 'add_product' })
-  insertProduct(data: ProductDTO) {
-    return this.productService.insertProduct(data);
+  async insertProduct(data: ProductDTO) {
+    return await this.productService.insertProduct(data);
   }
 
   @MessagePattern({ cmd: 'get_products' })
-  getProducts() {
-    return this.productService.getProducts();
+  async getProducts() {
+    return await this.productService.getProducts();
   }
 
   @MessagePattern({ cmd: 'get_product_by_id' })
-  getProductById(id: string) {
-    return this.productService.getProductById(id);
+  async getProductById(id: string) {
+    return await this.productService.getProductById(id);
   }
 
   @MessagePattern({ cmd: 'search_products' })
-  searchProducts(data: ProductsSearchModel) {
-    return this.productService.searchProducts(data);
+  async searchProducts(data: ProductsSearchModel) {
+    return await this.productService.searchProducts(data);
   }
 
   @MessagePattern({ cmd: 'update_product' })
-  updateProduct(data: ProductDTO) {
-    return this.productService.updateProduct(data);
+  async updateProduct(data: ProductDTO) {
+    return await this.productService.updateProduct(data);
   }
 
   @MessagePattern({ cmd: 'delete_product' })
-  deleteProduct(id: string): any {
-    return this.productService.deleteProduct(id);
+  async deleteProduct(id: string) {
+    return await this.productService.deleteProduct(id);
   }
 }
