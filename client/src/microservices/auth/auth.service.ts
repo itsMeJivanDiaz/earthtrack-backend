@@ -4,7 +4,7 @@ import { AuthDTO } from './auth.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject('AUTH_SERVICE') private client: ClientProxy) {}
+  constructor(@Inject('AUTH_MICROSERVICE') private client: ClientProxy) {}
 
   signIn(data: AuthDTO) {
     return this.client.send({ cmd: 'auth' }, data);

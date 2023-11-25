@@ -19,7 +19,11 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
-import { DeleteProductResponseDTO, ProductDTO } from './inventory-product.dto';
+import {
+  DeleteProductResponseDTO,
+  ProductDTO,
+  SearchProductResponseDTO,
+} from './inventory-product.dto';
 import { ErrorResponse } from 'src/shared/error-response';
 
 @Controller('api/product')
@@ -67,7 +71,11 @@ export class InventoryController {
   @ApiQuery({ name: 'query', required: true })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
-  @ApiResponse({ status: 200, description: 'success', type: [ProductDTO] })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: SearchProductResponseDTO,
+  })
   @ApiResponse({
     status: 401,
     description: 'unauthorized',

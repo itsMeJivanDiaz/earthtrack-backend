@@ -29,9 +29,19 @@ export class ProductDTO {
 }
 
 export class DeleteProductResponseDTO {
-  @ApiProperty()
+  @ApiProperty({ type: [Object] })
   raw: [];
 
   @ApiProperty()
+  @IsNumber()
   affected: number;
+}
+
+export class SearchProductResponseDTO {
+  @ApiProperty({ type: [ProductDTO] })
+  data: ProductDTO[];
+
+  @ApiProperty()
+  @IsNumber()
+  total: number;
 }

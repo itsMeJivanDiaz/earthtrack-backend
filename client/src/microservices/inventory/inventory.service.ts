@@ -5,7 +5,7 @@ import { ProductDTO } from './inventory-product.dto';
 
 @Injectable()
 export class InventoryService {
-  constructor(@Inject('INVENTORY_SERVICE') private client: ClientProxy) {}
+  constructor(@Inject('INVENTORY_MICROSERVICE') private client: ClientProxy) {}
 
   addProduct(data: ProductDTO) {
     return this.client.send({ cmd: 'add_product' }, data);

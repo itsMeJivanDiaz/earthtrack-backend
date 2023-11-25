@@ -11,14 +11,17 @@ import { JwtService } from '@nestjs/jwt/dist';
     InventoryService,
     JwtService,
     {
-      provide: 'INVENTORY_SERVICE',
+      provide: 'INVENTORY_MICROSERVICE',
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: configService.get<string>('INVENTORY_HOST') || 'inventory',
-            port: configService.get<number>('INVENTORY_PORT') || 3630,
+            host:
+              configService.get<string>('INVENTORY_MICROSERVICE_HOST') ||
+              'inventory',
+            port:
+              configService.get<number>('INVENTORY_MICROSERVICE_PORT') || 3630,
           },
         });
       },
