@@ -7,23 +7,56 @@ import {
   Patch,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
-import { ProductModel } from './interfaces/inventory-product.interface';
-import { AuthGuard } from 'src/guard/auth.guard';
-import { Roles } from 'src/guard/auth.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { Roles } from 'src/guards/auth.guard.decorator';
+import {
+  ApiTags,
+  ApiBody,
+  ApiResponse,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger';
+import { DeleteProductResponseDTO, ProductDTO } from './inventory-product.dto';
+import { ErrorResponse } from 'src/shared/error-response';
 
 @Controller('api/product')
+@ApiTags('Inventory')
 export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
 
+  @ApiBody({ type: ProductDTO })
+  @ApiResponse({ status: 200, description: 'Success', type: ProductDTO })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+    type: ErrorResponse,
+  })
   @Roles(['admin', 'auditor'])
   @UseGuards(AuthGuard)
   @Post()
-  addProduct(@Body() data: ProductModel) {
+  addProduct(@Body() data: ProductDTO) {
     return this.inventoryService.addProduct(data);
   }
 
+  @ApiResponse({ status: 200, description: 'success', type: [ProductDTO] })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
   @Roles(['admin', 'auditor', 'guest'])
   @UseGuards(AuthGuard)
   @Get()
@@ -31,6 +64,43 @@ export class InventoryController {
     return this.inventoryService.getProducts();
   }
 
+  @ApiQuery({ name: 'query', required: true })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiResponse({ status: 200, description: 'success', type: [ProductDTO] })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
+  @Roles(['admin', 'auditor', 'guest'])
+  @UseGuards(AuthGuard)
+  @Get('/search')
+  searchProducts(
+    @Query('query') query: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.inventoryService.searchProducts({ query, page, limit });
+  }
+
+  @ApiParam({ name: 'id', required: true })
+  @ApiResponse({ status: 200, description: 'success', type: ProductDTO })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
   @Roles(['admin', 'auditor', 'guest'])
   @UseGuards(AuthGuard)
   @Get(':id')
@@ -38,24 +108,40 @@ export class InventoryController {
     return this.inventoryService.getProductById(id);
   }
 
-  @Roles(['admin', 'auditor', 'guest'])
-  @UseGuards(AuthGuard)
-  @Get(':search/:page/:limit')
-  searchProducts(
-    @Param('search') search: string,
-    @Param('page') page: number,
-    @Param('limit') limit: number,
-  ) {
-    return this.inventoryService.searchProducts(search, page, limit);
-  }
-
+  @ApiBody({ type: ProductDTO })
+  @ApiResponse({ status: 200, description: 'success', type: ProductDTO })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
   @Roles(['auditor'])
   @UseGuards(AuthGuard)
   @Patch(':id')
-  updateProduct(@Param('id') id: string, @Body() data: ProductModel) {
+  updateProduct(@Param('id') id: string, @Body() data: ProductDTO) {
     return this.inventoryService.updateProduct(id, data);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: DeleteProductResponseDTO,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
   @Roles(['admin'])
   @UseGuards(AuthGuard)
   @Delete(':id')

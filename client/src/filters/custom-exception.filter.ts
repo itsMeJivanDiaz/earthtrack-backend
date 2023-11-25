@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { ErrorResponse } from 'src/shared/error-response';
 
 @Catch()
 export class ExceptionCustomFilter implements ExceptionFilter {
@@ -16,9 +17,10 @@ export class ExceptionCustomFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-    response.status(statusCode).json({
+    const json: ErrorResponse = {
       statusCode: statusCode,
       message: message,
-    });
+    };
+    response.status(statusCode).json(json);
   }
 }

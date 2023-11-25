@@ -44,7 +44,7 @@ export class ProductService {
     data: ProductsSearchModel,
   ): Promise<{ data: Product[]; total: number }> {
     try {
-      const search = data.searchTerm;
+      const search = data.query;
       const page = data.page;
       const limit = data.limit;
 

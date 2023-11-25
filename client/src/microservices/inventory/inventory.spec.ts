@@ -2,16 +2,16 @@
 import { TestingModule, Test } from '@nestjs/testing';
 import { InventoryController } from './inventory.controller';
 import { InventoryService } from './inventory.service';
-import { ProductModel } from './interfaces/inventory-product.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { ProductDTO } from 'src/microservices/inventory/inventory-product.dto';
 
 class MockClientProxy {
-  send(pattern: { cmd: string }, data: ProductModel) {}
+  send(pattern: { cmd: string }, data: ProductDTO) {}
 }
 
 describe('Inventory', () => {
-  const product: ProductModel = {
+  const product: ProductDTO = {
     name: 'Test Product',
     description: 'This is a test product, do not use as real world value',
     category: 'Test',
