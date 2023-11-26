@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
 
 export class ProductDTO {
-  id: string;
+  id?: string;
 
   @IsString()
   @IsNotEmpty({ message: 'name must not be empty' })
@@ -20,4 +20,18 @@ export class ProductDTO {
   @IsNumber()
   @IsNotEmpty({ message: 'price must not be empty' })
   price: number;
+}
+
+export class DeleteProductResponseDTO {
+  raw: [];
+
+  @IsNumber()
+  affected: number;
+}
+
+export class SearchProductResponseDTO {
+  data: ProductDTO[];
+
+  @IsNumber()
+  total: number;
 }

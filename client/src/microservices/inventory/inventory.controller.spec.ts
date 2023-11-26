@@ -12,34 +12,34 @@ import {
 
 class MockClientProxy {}
 
-describe('Inventory', () => {
-  const product: ProductDTO = {
+const product: ProductDTO = {
+  name: 'Test Product 1',
+  description:
+    'This is a test product number 1, do not use as real world value',
+  category: 'Test 1',
+  price: 2,
+};
+
+const productArray: ProductDTO[] = [
+  {
+    id: 'f0bb16a8-2ff3-43b3-977b-a19ce8f35064',
     name: 'Test Product 1',
     description:
       'This is a test product number 1, do not use as real world value',
     category: 'Test 1',
     price: 2,
-  };
+  },
+  {
+    id: '36c2bef6-065a-4842-89c1-194cb1e31c94',
+    name: 'Test Product 2',
+    description:
+      'This is a test product number 2, do not use as real world value',
+    category: 'Test 2',
+    price: 2.55,
+  },
+];
 
-  const productArray: ProductDTO[] = [
-    {
-      id: 'f0bb16a8-2ff3-43b3-977b-a19ce8f35064',
-      name: 'Test Product 1',
-      description:
-        'This is a test product number 1, do not use as real world value',
-      category: 'Test 1',
-      price: 2,
-    },
-    {
-      id: '36c2bef6-065a-4842-89c1-194cb1e31c94',
-      name: 'Test Product 2',
-      description:
-        'This is a test product number 2, do not use as real world value',
-      category: 'Test 2',
-      price: 2.55,
-    },
-  ];
-
+describe('Inventory', () => {
   let controller: InventoryController;
   let service: InventoryService;
   let clientProxy: MockClientProxy;
@@ -91,7 +91,7 @@ describe('Inventory', () => {
     expect(jwtService).toBeDefined();
   });
 
-  describe('ProductModel', () => {
+  describe('Product DTO', () => {
     it('should have a product name', () => {
       expect(product.name).not.toBe('');
     });
@@ -194,7 +194,6 @@ describe('Inventory', () => {
           const updatedProduct = { ...productArray[index], ...updateValue };
           return <any>updatedProduct;
         }
-        return undefined;
       });
 
       expect(controller.updateProduct(id, updateValue)).toStrictEqual(

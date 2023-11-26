@@ -16,7 +16,7 @@ export class User {
     enum: ['admin', 'auditor', 'guest'],
     default: 'guest',
   })
-  role: 'admin' | 'editor' | 'guest';
+  role: string;
 
   @Column({ type: 'varchar', length: '60' })
   username: string;

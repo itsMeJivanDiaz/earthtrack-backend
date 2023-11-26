@@ -19,3 +19,23 @@ export class AuthResponseDTO {
   @IsNotEmpty()
   access_token: string;
 }
+
+export class AuthUserDTO {
+  @IsString()
+  id: string;
+
+  @IsString()
+  firstname: string;
+
+  @IsString()
+  lastname: string;
+
+  @IsString()
+  role: string;
+
+  @IsString()
+  username: string;
+
+  @IsString()
+  userpassword: string;
+}
