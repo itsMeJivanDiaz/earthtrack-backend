@@ -25,7 +25,7 @@ const productArray: ProductDTO[] = [
     name: 'Test Product 1',
     description:
       'This is a test product number 1, do not use as real world value',
-    category: 'Test 1',
+    category: 'Android',
     price: 2,
   },
   {
@@ -33,7 +33,7 @@ const productArray: ProductDTO[] = [
     name: 'Test Product 2',
     description:
       'This is a test product number 2, do not use as real world value',
-    category: 'Test 2',
+    category: 'Apple',
     price: 2.55,
   },
 ];
@@ -143,6 +143,42 @@ describe('Products in Inventory Microservice', () => {
       ).toStrictEqual(expectedResult);
       expect(service.searchProducts).toHaveBeenCalledWith({
         query,
+        page,
+        limit,
+      });
+    });
+  });
+
+  describe('getProductsByCategory', () => {
+    it('should return an array of product equal to a category', async () => {
+      const category = 'Android';
+      const page = 1;
+      const limit = 10;
+      const expectedResult = { data: [productArray[0]], total: 1 };
+
+      jest
+        .spyOn(service, 'getProductsByCategory')
+        .mockImplementation(async () => {
+          const searh = productArray.filter(
+            (product) =>
+              product.category.toLowerCase() === category.toLowerCase(),
+          );
+
+          const total = searh.length;
+          const startIndex = (page - 1) * limit;
+          const data = searh.slice(startIndex, startIndex + limit);
+          const respose: SearchProductResponseDTO = {
+            data,
+            total,
+          };
+          return respose;
+        });
+
+      expect(
+        await controller.getProductsByCategory({ category, page, limit }),
+      ).toStrictEqual(expectedResult);
+      expect(service.getProductsByCategory).toHaveBeenCalledWith({
+        category,
         page,
         limit,
       });

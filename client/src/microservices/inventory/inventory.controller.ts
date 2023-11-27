@@ -116,6 +116,39 @@ export class InventoryController {
     return this.inventoryService.getProductById(id);
   }
 
+  @ApiParam({ name: 'category', required: true })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: SearchProductResponseDTO,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
+  @Roles(['admin', 'auditor', 'guest'])
+  @UseGuards(AuthGuard)
+  @Get('/category/:category')
+  getProductsByCategory(
+    @Param('category') category: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.inventoryService.getProductsByCategory({
+      category,
+      page,
+      limit,
+    });
+  }
+
   @ApiBody({ type: ProductDTO })
   @ApiResponse({ status: 200, description: 'success', type: ProductDTO })
   @ApiResponse({

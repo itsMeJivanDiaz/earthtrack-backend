@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './products.entity';
 import { DeleteResult, Repository } from 'typeorm';
@@ -35,6 +35,32 @@ export class ProductService {
     try {
       const response = await this.productRepository.findOneBy({ id });
       return response;
+    } catch (e) {
+      throw new RpcException({ message: e.message });
+    }
+  }
+
+  async getProductsByCategory(
+    data: ProductsSearchModel,
+  ): Promise<{ data: Product[]; total: number }> {
+    try {
+      const category = data.category;
+      const page = data.page;
+      const limit = data.limit;
+
+      const query = this.productRepository.createQueryBuilder('product');
+      const categoryQuery = `${category}`;
+      query.where('LOWER(product.category) = LOWER(:category)', {
+        category: categoryQuery,
+      });
+
+      const total = await query.getCount();
+
+      query.take(limit);
+      query.skip((page - 1) * limit);
+
+      const response = await query.getMany();
+      return { data: response, total };
     } catch (e) {
       throw new RpcException({ message: e.message });
     }

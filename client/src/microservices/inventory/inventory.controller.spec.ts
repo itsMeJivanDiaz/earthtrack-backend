@@ -26,7 +26,7 @@ const productArray: ProductDTO[] = [
     name: 'Test Product 1',
     description:
       'This is a test product number 1, do not use as real world value',
-    category: 'Test 1',
+    category: 'Apple',
     price: 2,
   },
   {
@@ -34,7 +34,7 @@ const productArray: ProductDTO[] = [
     name: 'Test Product 2',
     description:
       'This is a test product number 2, do not use as real world value',
-    category: 'Test 2',
+    category: 'Android',
     price: 2.55,
   },
 ];
@@ -126,6 +126,40 @@ describe('Inventory', () => {
 
       expect(controller.getProducts()).toBe(productArray);
       expect(service.getProducts).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('getProductsByCategory', () => {
+    it('should return an array of product equal to a category', () => {
+      const category = 'Android';
+      const page = 1;
+      const limit = 10;
+      const expectedResult = { data: [productArray[1]], total: 1 };
+
+      jest.spyOn(service, 'getProductsByCategory').mockImplementation(() => {
+        const searh = productArray.filter(
+          (product) =>
+            product.category.toLowerCase() === category.toLowerCase(),
+        );
+
+        const total = searh.length;
+        const startIndex = (page - 1) * limit;
+        const data = searh.slice(startIndex, startIndex + limit);
+        const respose: SearchProductResponseDTO = {
+          data,
+          total,
+        };
+        return <any>respose;
+      });
+
+      expect(
+        controller.getProductsByCategory(category, page, limit),
+      ).toStrictEqual(expectedResult);
+      expect(service.getProductsByCategory).toHaveBeenCalledWith({
+        category,
+        page,
+        limit,
+      });
     });
   });
 

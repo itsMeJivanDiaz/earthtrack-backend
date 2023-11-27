@@ -1,5 +1,6 @@
 export interface ProductsSearchModel {
-  query: string;
+  query?: string;
+  category?: string;
   page: number;
   limit: number;
 }
