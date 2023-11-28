@@ -19,6 +19,10 @@ export class InventoryService {
     return this.client.send({ cmd: 'get_product_by_id' }, id);
   }
 
+  getProductCategories() {
+    return this.client.send({ cmd: 'get_product_categories' }, {});
+  }
+
   getProductsByCategory(data: SearchModel) {
     return this.client.send({ cmd: 'get_products_by_category' }, data);
   }

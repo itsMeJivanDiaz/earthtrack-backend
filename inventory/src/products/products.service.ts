@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './products.entity';
 import { DeleteResult, Repository } from 'typeorm';
@@ -35,6 +35,19 @@ export class ProductService {
     try {
       const response = await this.productRepository.findOneBy({ id });
       return response;
+    } catch (e) {
+      throw new RpcException({ message: e.message });
+    }
+  }
+
+  async getProductCategories(): Promise<string[]> {
+    try {
+      const response: { category: string }[] = await this.productRepository
+        .createQueryBuilder()
+        .select('DISTINCT product.category', 'category')
+        .from(Product, 'product')
+        .getRawMany();
+      return response.map((categories) => categories.category);
     } catch (e) {
       throw new RpcException({ message: e.message });
     }

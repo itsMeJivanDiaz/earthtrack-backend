@@ -125,7 +125,22 @@ describe('Inventory', () => {
       jest.spyOn(service, 'getProducts').mockReturnValue(<any>productArray);
 
       expect(controller.getProducts()).toBe(productArray);
-      expect(service.getProducts).toHaveBeenCalledWith();
+      expect(service.getProducts).toHaveBeenCalled();
+    });
+  });
+
+  describe('getProductCategories', () => {
+    it('should return all distinct values of categories', () => {
+      const expectedResult = ['Apple', 'Android'];
+      jest.spyOn(service, 'getProductCategories').mockImplementation(() => {
+        const categories = Array.from(
+          new Set(productArray.map((product) => product.category)),
+        );
+        return <any>categories;
+      });
+
+      expect(controller.getProductCategories()).toMatchObject(expectedResult);
+      expect(service.getProductCategories).toHaveBeenCalled();
     });
   });
 

@@ -97,8 +97,12 @@ export class InventoryController {
     return this.inventoryService.searchProducts({ query, page, limit });
   }
 
-  @ApiParam({ name: 'id', required: true })
-  @ApiResponse({ status: 200, description: 'success', type: ProductDTO })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: String,
+    isArray: true,
+  })
   @ApiResponse({
     status: 401,
     description: 'unauthorized',
@@ -111,9 +115,9 @@ export class InventoryController {
   })
   @Roles(['admin', 'auditor', 'guest'])
   @UseGuards(AuthGuard)
-  @Get(':id')
-  getProductById(@Param('id') id: string) {
-    return this.inventoryService.getProductById(id);
+  @Get('/categories')
+  getProductCategories() {
+    return this.inventoryService.getProductCategories();
   }
 
   @ApiParam({ name: 'category', required: true })
@@ -147,6 +151,25 @@ export class InventoryController {
       page,
       limit,
     });
+  }
+
+  @ApiParam({ name: 'id', required: true })
+  @ApiResponse({ status: 200, description: 'success', type: ProductDTO })
+  @ApiResponse({
+    status: 401,
+    description: 'unauthorized',
+    type: ErrorResponse,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'internal server error',
+    type: ErrorResponse,
+  })
+  @Roles(['admin', 'auditor', 'guest'])
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  getProductById(@Param('id') id: string) {
+    return this.inventoryService.getProductById(id);
   }
 
   @ApiBody({ type: ProductDTO })

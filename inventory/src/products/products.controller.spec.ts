@@ -149,6 +149,25 @@ describe('Products in Inventory Microservice', () => {
     });
   });
 
+  describe('getProductCategories', () => {
+    it('should return all distinct values of categories', async () => {
+      const expectedResult = ['Android', 'Apple'];
+      jest
+        .spyOn(service, 'getProductCategories')
+        .mockImplementation(async () => {
+          const categories = Array.from(
+            new Set(productArray.map((product) => product.category)),
+          );
+          return categories;
+        });
+
+      expect(await controller.getProductCategories()).toMatchObject(
+        expectedResult,
+      );
+      expect(service.getProductCategories).toHaveBeenCalled();
+    });
+  });
+
   describe('getProductsByCategory', () => {
     it('should return an array of product equal to a category', async () => {
       const category = 'Android';

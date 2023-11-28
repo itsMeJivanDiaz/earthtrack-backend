@@ -23,6 +23,11 @@ export class ProductsController {
     return await this.productService.getProductById(id);
   }
 
+  @MessagePattern({ cmd: 'get_product_categories' })
+  async getProductCategories() {
+    return await this.productService.getProductCategories();
+  }
+
   @MessagePattern({ cmd: 'get_products_by_category' })
   async getProductsByCategory(data: ProductsSearchModel) {
     return await this.productService.getProductsByCategory(data);
