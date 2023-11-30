@@ -4,8 +4,9 @@ EarthTrack Technical assessment for Backend using NestJs with TypeScript templat
 
 ### How to set up
 
-1. clone the repository
+* clone the repository
 
-> git clone https://github.com/itsMeJivanDiaz/earthtrack-backend.git
+```bash
+git clone https://github.com/itsMeJivanDiaz/earthtrack-backend.git
+```
 
-2. 
