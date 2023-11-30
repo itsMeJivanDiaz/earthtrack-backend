@@ -54,3 +54,6 @@ Clone the repository
 
 - After starting the server, open browser and redirect to <http://localhost:3460/api>. This page contains the details of the APIs' usage
 
+## Note:
+
+- all the configuration (such as port and host) can be easily updated inside the docker-compose.yaml
