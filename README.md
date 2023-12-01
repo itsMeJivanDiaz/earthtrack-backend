@@ -1,6 +1,6 @@
 # **EarthTrack Technical Assessment**
 
-EarthTrack Technical assessment for Backend using NestJs with TypeScript template and PostgreSQL as Database (deployed on remote - render)
+EarthTrack Technical assessment for Backend using NestJs with TypeScript template and PostgreSQL as Database (deployed on remote - render.com)
 
 ## How to set up
 
@@ -12,9 +12,11 @@ Clone the repository
 
 #### Set the variables in the .env file
 
- - There is file a `.env.template` that can guide how to set up the .env file
+ - Note: Refer to the `.env.template` file for guidance on setting up the `.env` file.
 
- - e.g:
+ - Create a file named `.env` at the root level.
+
+ - The contents of the file should look like:
 
     ```javascript
     # DATABASE CONFIGURATIONS
@@ -30,19 +32,21 @@ Clone the repository
 
 #### Build docker container
 
-- Each service has its own Dockerfile in its directory but there is no need to execute it individually since we have a `docker-compose.yml` file sitting in the project's root directory.
+- Each service has its own Dockerfile in its directory but there is no need to execute it individually because there is a `docker-compose.yml` file in the project's root directory.
 
   ```bash 
   docker-compose up
   ```
+
 - Running this command will also run `npm run test`, `npm run build` and will start the server by executing `npm run start:prod`
 
+- default server is `http://localhost:3460`
 
 ## Testing
 
 #### Testing each services
 
-- Each services has its own .spec.ts files so just `cd` (Change directory) to a folder that needs to be tested and run:
+- Each services has its own .spec.ts files. To test a specific service, navigate (cd) to its folder and run:
 
   ```bash
   npm run test
@@ -50,9 +54,9 @@ Clone the repository
 
 ## API Documentation (SWAGGER UI)
 
-#### View documentation
+#### View API documentation
 
-- After starting the server, open browser and redirect to <http://localhost:3460/api>. This page contains the details of the APIs' usage
+- After starting the server, open browser and redirect to <http://localhost:3460/api>. This page contains the details of the API usage
 
 ## Note:
 
