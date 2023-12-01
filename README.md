@@ -38,7 +38,7 @@ Clone the repository
   docker-compose up
   ```
 
-- Running this command will also run `npm run test`, `npm run build` and will start the server by executing `npm run start:prod`
+- Running this command will also run `npm run test`, `npm run build` and will start the server by executing `npm run start`
 
 - default server is `http://localhost:3460`
 
